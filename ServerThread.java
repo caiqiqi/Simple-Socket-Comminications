@@ -18,7 +18,7 @@ public class ServerThread implements Runnable{
       while((content = readFromClient()) != null) {
         //遍历socketList中的每个Socket
         //将读到的内容向每个Socket发送一次
-        for (Socket s :MyServer.socketList){
+        for (Socket s : MyServer.socketList){
           OutputStream os = s.getOutputStream();
           os.write((content + "\n").getBytes("utf-8"));
         }
@@ -33,6 +33,7 @@ public class ServerThread implements Runnable{
   */
   
   //定义读取客户端数据的方法
+  //这里将几句代码抽象出来形成一个方法，有一个好处就是，避免了过多的使用try...catch导致代码不好看
   private String readFromClient(){
     try {
       return br.readLine();
