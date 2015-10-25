@@ -23,6 +23,9 @@ public class MultiThreadClient extends Activity {
 		send = (Button)findViewById(R.id.send);
 		show = (TextView)findViewById(R.id.show);
 		
+		/*
+		*这个主线程中的Handler处理ClientThread中的匿名子线程中发送过来的消息
+		*/
 		handler = new Handler(){
 			@Override
 			public void handleMessage(Message msg){
@@ -47,6 +50,10 @@ public class MultiThreadClient extends Activity {
 					Message msg = new Message();
 					msg.what = 0x345;
 					msg.obj = input.getText().toString();
+					/*
+					*这里，由于这里还是在主线程中，然而又由于rcvHandler这个Handler是public的，于是可以在这里sendMessage()，
+					*而在ClientThread类的内部的rcvHandler的handleMessage()中来处理从这里send出去的Message
+					*/
 					clientThread.rcvHandler.sengMessage(msg);
 					
 					//清空input文本框;
